@@ -194,7 +194,7 @@ def main():
 		sys.exit(0)
 
 if __name__ == "__main__":
-	print('[i] Shodan-RPi\n    by btx3 (based on code by somu1795)')
+	print('[i] Shodan-RPi\n')
 	if args.input != None:
 		print('\n[i] Reading from %s' % args.input)
 	else:
