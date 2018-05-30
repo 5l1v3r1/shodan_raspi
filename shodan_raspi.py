@@ -73,7 +73,7 @@ parser.add_argument('-c', '--command',
 parser.add_argument('-L', '--limits',
                     help='Number of results from shodan, default is 100',
                     metavar='LIMITS',
-                    type=str
+                    type=str,
 		    default='100')
 args = parser.parse_args()
 
