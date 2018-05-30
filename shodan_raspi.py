@@ -229,11 +229,8 @@ def main():
 		sys.exit(0)
 
 if __name__ == "__main__":
-<<<<<<< HEAD
 	print('[i] Shodan-RPi\n')
-=======
 	print('[i] Shodan-RPi %s\n  ' % version)
->>>>>>> 756fbb6a3e9e5ee10592a0660a3155bfe153bd13
 	if args.input != None:
 		print(('\n[i] Reading from %s' % args.input))
 	else:
