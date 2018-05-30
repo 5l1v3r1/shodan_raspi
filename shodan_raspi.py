@@ -4,7 +4,7 @@ import argparse, os, socket, sys, time
 try:
 	from colorama import Fore, init
 	import paramiko, shodan
-except ModuleNotFoundError:
+except ImportError:
 	print('[-] Failed to import an external module.')
 	import platform
 	if platform.system() == 'Linux':
@@ -16,7 +16,7 @@ except ModuleNotFoundError:
 	sys.exit(1)
 
 api_key = None # Set to None if you want to provide a key through arguments
-version = "1.0.0/py3"
+version = "1.0.1/py3"
 
 init() # Colored output
 
@@ -70,6 +70,11 @@ parser.add_argument('-c', '--command',
                     help='Run CMD after a successful connection',
                     metavar='CMD',
                     type=str) # For example, run uname -a or lscpu
+parser.add_argument('-L', '--limits',
+                    help='Number of results from shodan, default is 100',
+                    metavar='LIMITS',
+                    type=str
+		    default='100')
 args = parser.parse_args()
 
 failtext = Fore.RED + '\tFAILED' + Fore.RESET
@@ -99,14 +104,14 @@ def arrayWrite(shodandata=None):
 		r.append(a['ip_str'])
 	return r
 
-def getShodanResults(apikey, searchstring=args.search_string):
+def getShodanResults(apikey, searchstring=args.search_string, limits=args.limits):
 	"""
 		Poll Shodan for results
 	"""
 	print('[*] Getting results from Shodan; this may take a while...')
 	api = shodan.Shodan(apikey)
 	try:
-		results = api.search(searchstring)
+		results = api.search(searchstring, limit=limits)
 		return results
 	except shodan.APIError as e:
 		print(('[-] Shodan API Error\n    Error string: %s\n\n    Please check the provided API key.' % str(e)))
@@ -227,7 +232,7 @@ if __name__ == "__main__":
 <<<<<<< HEAD
 	print('[i] Shodan-RPi\n')
 =======
-	print('[i] Shodan-RPi %s\n    by btx3 (based on code by somu1795)' % version)
+	print('[i] Shodan-RPi %s\n  ' % version)
 >>>>>>> 756fbb6a3e9e5ee10592a0660a3155bfe153bd13
 	if args.input != None:
 		print(('\n[i] Reading from %s' % args.input))
